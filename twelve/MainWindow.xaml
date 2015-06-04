@@ -1,0 +1,78 @@
+﻿<Window x:Class="twelve.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Twelve" Height="350"  Width="525" WindowState="Maximized" WindowStyle="ThreeDBorderWindow"
+     Closing="Window_Closing" >
+
+    <Grid Background="AliceBlue">
+
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="43*"></ColumnDefinition>
+            <ColumnDefinition Width="43*"></ColumnDefinition>
+            <ColumnDefinition Width="43*"></ColumnDefinition>
+            <ColumnDefinition Width="43*"></ColumnDefinition>
+            <ColumnDefinition Width="43*"></ColumnDefinition>
+            <ColumnDefinition Width="43*"></ColumnDefinition>
+            <ColumnDefinition Width="43*"></ColumnDefinition>
+            <ColumnDefinition Width="43*"></ColumnDefinition>
+            <ColumnDefinition Width="7*"></ColumnDefinition>
+            <ColumnDefinition Width="36*"/>
+            <ColumnDefinition Width="43*"></ColumnDefinition>
+            <ColumnDefinition Width="44*"></ColumnDefinition>
+            <ColumnDefinition Width="43*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+      
+        <Grid Grid.Column="7" Grid.ColumnSpan="4">
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+          
+            <Label Visibility="Hidden" HorizontalAlignment="Right"  Margin="5" Grid.Column="0" Grid.ColumnSpan="2">иск. похожие</Label>
+            <CheckBox Visibility="Hidden"  Name="cb" VerticalAlignment="Center" Margin="0,5,5,5" Grid.Column="2" HorizontalAlignment="Right" Width="33" />
+        </Grid>
+        <Label Name="workerState" HorizontalAlignment="Right"  Margin="5" Grid.Column="0" Grid.ColumnSpan="2"></Label>
+
+        <TabControl Name="tabControl1"  Background="LightBlue"  Grid.RowSpan="6" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="9" Margin="1,1,1,10" SelectionChanged="tabControl1_SelectionChanged">
+            <TabItem BorderThickness="3" Name="t1" Header="Mass=1">
+                
+                <Canvas Name="pic" Background="AntiqueWhite"  Grid.RowSpan="6" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="8" Margin="1,1,1,1" >
+                </Canvas>
+            </TabItem>
+            <TabItem Name="t10" Header="Search">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <WrapPanel Name="wrapP" ItemHeight="100" ItemWidth="100">
+                    </WrapPanel>
+                </ScrollViewer>
+            </TabItem>
+
+        </TabControl>
+
+        <Button   Margin="1,0,10,7" Grid.Row="8" Grid.Column="4" Grid.ColumnSpan="2"  Name="randFiller"  Content="randfill" Height="22" VerticalAlignment="Bottom" Click="randFill_Click" />
+        <Button   Margin="1,0,10,7" Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2"  Name="test"  Content="Test" Height="22" VerticalAlignment="Bottom" Click="test_Click_1"/>
+        <Button   Margin="1,0,10,7" Grid.Row="7" Grid.Column="4"  Grid.ColumnSpan="2"  Name="clear"  Content="Clear" Height="22"  Click="clear_Click_1" />
+
+        <Button Click="but_Click"  Margin="1,0,10,7" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2"  Name="but"  Content="Добавить точку" Height="22" VerticalAlignment="Bottom"/>
+        <RichTextBox BorderThickness="3" Grid.Row="2" Grid.Column="10" Grid.ColumnSpan="3" Grid.RowSpan="4" Name="textik"></RichTextBox>
+
+
+    </Grid>
+
+</Window>
