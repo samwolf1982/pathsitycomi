@@ -36,14 +36,17 @@ namespace twelve
         /// нечетное количество точек пока
         /// </summary>
         List<PointF> arrPoints = new List<PointF>();
+        
+
         Dictionary<Line, double> arrLine = new Dictionary< Line, double>();
 
         //случайная подстановка для цикла гамильтона
+        List<int> arrStartPosition = new List<int>();
         List<int> arrRandom = new List<int>();
         List<int> nextarrRandom = new List<int>();
        float t = 100;     // верхняя грань  для функции всегда декремент 
 
-        double mainValue = 0,tempNumber=0;
+        double mainValue = 0,tempNumber=0,mainvalueBackUp=0;
         public MainWindow()
         {
  
@@ -59,16 +62,13 @@ namespace twelve
         void dispatcherTimer_Tick(object sender, EventArgs e)
         {
             if (t <= 0) dispatcherTimer.Stop();
-           t = t - 0.1f;
+            t = t - (float)(1 - (0.7 / 0.99));
+        //   t = t - (float)(0.7/0.99);
                 String str2 = "";
-                //FlowDocument flowDoc2 = new FlowDocument(new Paragraph(new Run(str2)));
-                //   textik.Document.Blocks.Add(new Paragraph(new Run(str2)));
                 // независимый генератор
                 double d2 = randFill(ref nextarrRandom);
-                str2 = "MainValue:  " + mainValue.ToString() + "  " + "newVal:  " + d2.ToString() + " t= " + t.ToString();
-                // flowDoc2 = new FlowDocument(new Paragraph(new Run(str2 + d.ToString())));
+                str2 = "Текущее значение:  " + mainValue.ToString() + "  " + "\nНовое значение:  " + d2.ToString() + "\n t= " + t.ToString();
 
-                //var sd = textik.Document.Blocks;
                 textik.Document.Blocks.Clear();
                 textik.Document.Blocks.Add(new Paragraph(new Run(str2)));
 
@@ -91,6 +91,9 @@ namespace twelve
                         if (P > temp) //  сделать анализ!!!!!!! (на ранних етапах возможность выбрать плохое решение всегда выше !!!) зависимоть от знаменателя !!
                         {
                             tempNumber = mainValue;
+                            //////////////////////////////
+                            arrRandom = nextarrRandom;
+                           //////////////////////////
                             mainValue = d2;
                             System.Diagnostics.Debug.WriteLine("main=d  M=" + mainValue);
 
@@ -99,6 +102,7 @@ namespace twelve
                         {
                             if (tempNumber != 0)
                                 mainValue = tempNumber;
+
                             System.Diagnostics.Debug.WriteLine("back ");
                         }
 
@@ -106,6 +110,12 @@ namespace twelve
 
 
                 }
+
+           // show();
+                pic.Children.Clear();
+
+            showMAinPath();
+
 
 
             
@@ -156,9 +166,36 @@ namespace twelve
 
         }
 
+        /// <summary>
+        /// возврат елипса
+        /// </summary>
+        /// <param name="begin">первая точка</param>
+        /// <param name="end">вторая точка</param>
+        /// <returns></returns>
+        private Ellipse createCirkle(int begin)
+        {
+
+            SolidColorBrush fillBrush = new SolidColorBrush() { Color = Colors.Red };
+            SolidColorBrush borderBrush = new SolidColorBrush() { Color = Colors.Black };
+           Ellipse e=new  Ellipse()
+            {
+                Height = 10,
+                Width = 10,
+                StrokeThickness = 1,
+                Stroke = borderBrush,
+                Fill = fillBrush
+            };
+           //Canvas.SetLeft(e, 10);
+         //  Canvas.SetTop(e,10);
+           Canvas.SetLeft(e,  arrPoints[begin].X-5);
+           Canvas.SetTop(e, arrPoints[begin].Y-5);
+           return e;
+
+        }
+
         private PointF createPoint()
         {
-            return new PointF(rand.Next(10, 200), rand.Next(10, 200));
+            return new PointF(rand.Next(10, 400), rand.Next(10, 400));
         }
 /// <summary>
         ///  растояние между двумя  точками
@@ -179,12 +216,39 @@ namespace twelve
         /// <param name="e"></param>
         private void but_Click(object sender, RoutedEventArgs e)
         {
-
-            for (int i = 0; i < 50; i++)
+            /// только первый раз инициализация
+            if (arrPoints.Count == 1 || arrPoints.Count == 0)
             {
-                 arrPoints.Add(createPoint());
+                for (int i = 0; i < 20; i++)
+                {
+
+                    arrPoints.Add(createPoint());
+                }
             }
 
+            /// только первый раз инициализация
+            /// 
+            //первя случайная инициализация
+
+            if (arrStartPosition.Count == 0)
+            {
+              mainvalueBackUp=  randFill(ref arrStartPosition);
+                // cоздание копии
+                arrRandom = arrStartPosition;
+                mainValue = mainvalueBackUp;
+                t = 100;
+            }
+            else
+            {
+                arrRandom = arrStartPosition;
+                mainValue = mainvalueBackUp;
+                t = 100;
+                nextarrRandom.Clear();
+            }
+            
+          //  mainValue = randFill(ref arrRandom);
+            if(dispatcherTimer.IsEnabled==false) dispatcherTimer.Start();
+           
            
         }
         /// <summary>
@@ -196,22 +260,22 @@ namespace twelve
         {
 
 
-            for (int i = 0; i < arrPoints.Count-1; i++)
-            {
-                for (int j = i+1; j < arrPoints.Count; j++)
-                {
-                    Line l = createLine(i, j);
-                    double d= showLebgth(i, j);
+            //for (int i = 0; i < arrPoints.Count-1; i++)
+            //{
+               // for (int j = i+1; j < arrPoints.Count; j++)
+             //   {
+                    //Line l = createLine(i, j);
+                    //double d= showLebgth(i, j);
                     //все ветки графа (вес ето длина)
-                    arrLine.Add(l, d);
-                    pic.Children.Add(l);
+                   // arrLine.Add(l, d);
+                    //pic.Children.Add(l);
                       
 
-                }
-            }
+               // }
+           // }
 
             // первое случайное  заполнение  // генератор для начального маршта
-            mainValue = randFill(ref arrRandom);
+         //   mainValue = randFill(ref arrRandom);
             //       doubled = 99;
 
            // String str2 = "Общая цена:  " + mainValue.ToString();
@@ -245,9 +309,16 @@ namespace twelve
         /// <param name="e"></param>
         private void clear_Click_1(object sender, RoutedEventArgs e)
         {
+            if (dispatcherTimer.IsEnabled == true) dispatcherTimer.Stop();
+            arrLine.Clear();
+            arrRandom.Clear();
+            nextarrRandom.Clear();
+            arrStartPosition.Clear();
+           
             textik.Document.Blocks.Clear();
             arrPoints.Clear();
             pic.Children.Clear();
+
         }
 
         private void tabControl1_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -267,17 +338,7 @@ namespace twelve
 
                     // curentList = selectfun(1);
                 }
-                if (t10.IsSelected)
-                {
-                    //if ( FillerX == null ||    FillerX.mainList.Count == 0) return;
-                    //curentList = selectfun(1);
-                    //curentindex = 0;
-                    ////Do your job here
-                    //System.Diagnostics.Debug.WriteLine("Tab,change T1");
-                    //// инфо про фигурку
-
-                    // curentList = selectfun(1);
-                }
+  
 
 
             }
@@ -303,32 +364,113 @@ namespace twelve
         private void randFill_Click(object sender, RoutedEventArgs e)
         {
 
-        //double d1=    randFill(ref arrRandom);
-     //       doubled = 99;
 
-            dispatcherTimer.Start();
-// MessageBox.Show("finish");
+            
      
-
           
-          
+         //   showPointsArr();
+          //  dispatcherTimer.Start();
 
+            //t = t - 0.1f;
+            //String str2 = "";
+            ////FlowDocument flowDoc2 = new FlowDocument(new Paragraph(new Run(str2)));
+            ////   textik.Document.Blocks.Add(new Paragraph(new Run(str2)));
+            //// независимый генератор
+            //double d2 = randFill(ref nextarrRandom);
+            //str2 = "MainValue:  " + mainValue.ToString() + "  " + "newVal:  " + d2.ToString() + " t= " + t.ToString();
+            //// flowDoc2 = new FlowDocument(new Paragraph(new Run(str2 + d.ToString())));
 
-          
-            //for (int i = 0; i < sd.Count; i++)
+            ////var sd = textik.Document.Blocks;
+            //textik.Document.Blocks.Clear();
+            //textik.Document.Blocks.Add(new Paragraph(new Run(str2)));
+
+            //// проверка на то кто больше c предыдущим
+            //if (mainValue < d2) // если путь правильный идем дальше в глубь
             //{
-            //    textik.Document.Blocks.Add(sd.);
-            //}
-          //  textik.Document.b
+            //    //   mainValue = d2;
+            //    //  return;
 
-          
+            //}
+            //else    // а вдруг он хороший? )) вычисление критической величины и сравнивание ёё с случайной величиной
+            //{
+            //    // запоминаем текущее состояние 
+            //    double P = 0; // критическая величина
+            //    if ((mainValue - d2) > 0)
+            //    {
+            //        P = 100 * Math.Pow(Math.E, -(mainValue - d2) / t);
+            //        // третий герератор для сравнивания результата с порогом // случайное число от некой границы в даном случае 1-100
+            //        int temp = rand.Next(1, 100);
+            //        if (P > temp) //  сделать анализ!!!!!!! (на ранних етапах возможность выбрать плохое решение всегда выше !!!) зависимоть от знаменателя !!
+            //        {
+            //            tempNumber = mainValue;
+            //            mainValue = d2;
+            //            System.Diagnostics.Debug.WriteLine("main=d  M=" + mainValue);
+
+            //        }
+            //        else
+            //        {
+            //            if (tempNumber != 0)
+            //                mainValue = tempNumber;
+            //            System.Diagnostics.Debug.WriteLine("back ");
+            //        }
+
+            //    }
+
+
+            //}
 
       
                     
 
         }
 
+        /// <summary>
+        /// рисует все точки и линии по заданому алгоритму из массива  ArrRandom (cамий опитмальный на текущий момент)
+        /// </summary>
+        private void showMAinPath()
+        {
+            
+            foreach (var item in arrRandom)
+            {
+                if (item == 0) { Ellipse el = createCirkle(item);
+                SolidColorBrush fillBrush = new SolidColorBrush() { Color = Colors.Yellow};
+                el.Fill = fillBrush;
+                    
+                    pic.Children.Add(el); }
+                else
+                {
+                    pic.Children.Add(createCirkle(item));
+                }
+            }
+            for (int i = 0; i < arrRandom.Count - 1; i++)
+            {
+                Line l = createLine(arrRandom[i], arrRandom[i + 1]);
+                pic.Children.Add(l);
+            }
+            Line l2 = createLine(arrRandom[arrRandom.Count - 1], arrRandom[0]);
 
+            pic.Children.Add(l2);
+        }
+        private void showPointsArr()
+        {
+            
+    SolidColorBrush blueBrush = new SolidColorBrush();
+    blueBrush.Color = Colors.Blue;
+    SolidColorBrush blackBrush = new SolidColorBrush();
+
+            //foreach (var item in arrRandom)
+            //{
+                   
+            //}
+
+    
+    blackBrush.Color = Colors.Black;
+            Ellipse el = new Ellipse();
+            el.Width = 200;
+            el.Height = 100;
+
+            pic.Children.Add(el);
+        }
 
     }
 

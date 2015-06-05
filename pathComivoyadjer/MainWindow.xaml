@@ -51,25 +51,20 @@
         <Label Name="workerState" HorizontalAlignment="Right"  Margin="5" Grid.Column="0" Grid.ColumnSpan="2"></Label>
 
         <TabControl Name="tabControl1"  Background="LightBlue"  Grid.RowSpan="6" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="9" Margin="1,1,1,10" SelectionChanged="tabControl1_SelectionChanged">
-            <TabItem BorderThickness="3" Name="t1" Header="Mass=1">
+            <TabItem BorderThickness="3" Name="t1" Header="путь коммивояжера">
                 
                 <Canvas Name="pic" Background="AntiqueWhite"  Grid.RowSpan="6" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="8" Margin="1,1,1,1" >
                 </Canvas>
             </TabItem>
-            <TabItem Name="t10" Header="Search">
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <WrapPanel Name="wrapP" ItemHeight="100" ItemWidth="100">
-                    </WrapPanel>
-                </ScrollViewer>
-            </TabItem>
+          
 
         </TabControl>
 
-        <Button   Margin="1,0,10,7" Grid.Row="8" Grid.Column="4" Grid.ColumnSpan="2"  Name="randFiller"  Content="randfill" Height="22" VerticalAlignment="Bottom" Click="randFill_Click" />
-        <Button   Margin="1,0,10,7" Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2"  Name="test"  Content="Test" Height="22" VerticalAlignment="Bottom" Click="test_Click_1"/>
-        <Button   Margin="1,0,10,7" Grid.Row="7" Grid.Column="4"  Grid.ColumnSpan="2"  Name="clear"  Content="Clear" Height="22"  Click="clear_Click_1" />
+    
+      
+        <Button   Grid.Row="7" Grid.Column="4"  Grid.ColumnSpan="2"  Name="clear"  Content="Clear" Height="22"  Click="clear_Click_1" Margin="0,14,0,0" />
 
-        <Button Click="but_Click"  Margin="1,0,10,7" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2"  Name="but"  Content="Добавить точку" Height="22" VerticalAlignment="Bottom"/>
+        <Button Click="but_Click"   Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2"  Name="but"  Content="Добавить точку" Height="22" VerticalAlignment="Bottom"/>
         <RichTextBox BorderThickness="3" Grid.Row="2" Grid.Column="10" Grid.ColumnSpan="3" Grid.RowSpan="4" Name="textik"></RichTextBox>
 
 
