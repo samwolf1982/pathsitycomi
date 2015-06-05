@@ -36,9 +36,7 @@ namespace twelve
         /// нечетное количество точек пока
         /// </summary>
         List<PointF> arrPoints = new List<PointF>();
-        
-
-        Dictionary<Line, double> arrLine = new Dictionary< Line, double>();
+       
 
         //случайная подстановка для цикла гамильтона
         List<int> arrStartPosition = new List<int>();
@@ -51,11 +49,9 @@ namespace twelve
         {
  
             InitializeComponent();
-            ///start point
             arrPoints.Add(createPoint());
             dispatcherTimer.Tick += dispatcherTimer_Tick;
             dispatcherTimer.Interval = new TimeSpan(0,0,0,0,5);
-            //dispatcherTimer.Start();
 
         }
 
@@ -63,7 +59,6 @@ namespace twelve
         {
             if (t <= 0) dispatcherTimer.Stop();
             t = t - (float)(1 - (0.7 / 0.99));
-        //   t = t - (float)(0.7/0.99);
                 String str2 = "";
                 // независимый генератор
                 double d2 = randFill(ref nextarrRandom);
@@ -210,16 +205,18 @@ namespace twelve
            return Math.Sqrt( Math.Pow( (y.X-x.X),2)+Math.Pow( (y.Y-x.Y),2));
         }
         /// <summary>
-        /// добавляет новую точку в массив
+        /// добавляет новые точку в массив
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void but_Click(object sender, RoutedEventArgs e)
         {
+
             /// только первый раз инициализация
             if (arrPoints.Count == 1 || arrPoints.Count == 0)
             {
-                for (int i = 0; i < 20; i++)
+                // количество точек
+                for (int i = 0; i < 18; i++)
                 {
 
                     arrPoints.Add(createPoint());
@@ -251,55 +248,8 @@ namespace twelve
            
            
         }
-        /// <summary>
-        /// test button
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void test_Click_1(object sender, RoutedEventArgs e)
-        {
 
-
-            //for (int i = 0; i < arrPoints.Count-1; i++)
-            //{
-               // for (int j = i+1; j < arrPoints.Count; j++)
-             //   {
-                    //Line l = createLine(i, j);
-                    //double d= showLebgth(i, j);
-                    //все ветки графа (вес ето длина)
-                   // arrLine.Add(l, d);
-                    //pic.Children.Add(l);
-                      
-
-               // }
-           // }
-
-            // первое случайное  заполнение  // генератор для начального маршта
-         //   mainValue = randFill(ref arrRandom);
-            //       doubled = 99;
-
-           // String str2 = "Общая цена:  " + mainValue.ToString();
-                                            //FlowDocument flowDoc2 = new FlowDocument(new Paragraph(new Run(str2)));
-         //   textik.Document.Blocks.Add(new Paragraph(new Run(str2)));
-
-           
-        }
-        /// <summary>
-        /// отбражение длины в тексковаом поле между точками
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <param name="str"></param>
-        /// <returns>длина между точками</returns>
-        private double showLebgth(int a,int b,string str = "")
-        {
-            double l=lengt(a, b);
-            //String str2 = "Длина от "+arrPoints[a].ToString()+" "+arrPoints[b].ToString()+":  "+l.ToString();
-            //FlowDocument flowDoc2 = new FlowDocument(new Paragraph(new Run(str2)));          
-          //  textik.Document.Blocks.Add(new Paragraph(new Run(str2)));
-            return l;
-
-        }
+    
 
  
         /// <summary>
@@ -310,7 +260,7 @@ namespace twelve
         private void clear_Click_1(object sender, RoutedEventArgs e)
         {
             if (dispatcherTimer.IsEnabled == true) dispatcherTimer.Stop();
-            arrLine.Clear();
+           // arrLine.Clear();
             arrRandom.Clear();
             nextarrRandom.Clear();
             arrStartPosition.Clear();
@@ -352,77 +302,7 @@ namespace twelve
 
 
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-
-        }
-        /// <summary>
-        /// случайное заполнение
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void randFill_Click(object sender, RoutedEventArgs e)
-        {
-
-
-            
-     
-          
-         //   showPointsArr();
-          //  dispatcherTimer.Start();
-
-            //t = t - 0.1f;
-            //String str2 = "";
-            ////FlowDocument flowDoc2 = new FlowDocument(new Paragraph(new Run(str2)));
-            ////   textik.Document.Blocks.Add(new Paragraph(new Run(str2)));
-            //// независимый генератор
-            //double d2 = randFill(ref nextarrRandom);
-            //str2 = "MainValue:  " + mainValue.ToString() + "  " + "newVal:  " + d2.ToString() + " t= " + t.ToString();
-            //// flowDoc2 = new FlowDocument(new Paragraph(new Run(str2 + d.ToString())));
-
-            ////var sd = textik.Document.Blocks;
-            //textik.Document.Blocks.Clear();
-            //textik.Document.Blocks.Add(new Paragraph(new Run(str2)));
-
-            //// проверка на то кто больше c предыдущим
-            //if (mainValue < d2) // если путь правильный идем дальше в глубь
-            //{
-            //    //   mainValue = d2;
-            //    //  return;
-
-            //}
-            //else    // а вдруг он хороший? )) вычисление критической величины и сравнивание ёё с случайной величиной
-            //{
-            //    // запоминаем текущее состояние 
-            //    double P = 0; // критическая величина
-            //    if ((mainValue - d2) > 0)
-            //    {
-            //        P = 100 * Math.Pow(Math.E, -(mainValue - d2) / t);
-            //        // третий герератор для сравнивания результата с порогом // случайное число от некой границы в даном случае 1-100
-            //        int temp = rand.Next(1, 100);
-            //        if (P > temp) //  сделать анализ!!!!!!! (на ранних етапах возможность выбрать плохое решение всегда выше !!!) зависимоть от знаменателя !!
-            //        {
-            //            tempNumber = mainValue;
-            //            mainValue = d2;
-            //            System.Diagnostics.Debug.WriteLine("main=d  M=" + mainValue);
-
-            //        }
-            //        else
-            //        {
-            //            if (tempNumber != 0)
-            //                mainValue = tempNumber;
-            //            System.Diagnostics.Debug.WriteLine("back ");
-            //        }
-
-            //    }
-
-
-            //}
-
-      
-                    
-
-        }
+   
 
         /// <summary>
         /// рисует все точки и линии по заданому алгоритму из массива  ArrRandom (cамий опитмальный на текущий момент)
